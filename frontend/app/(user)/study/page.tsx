@@ -13,22 +13,30 @@ export default function StudyPage() {
   const [feedback, setFeedback] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleSpeak = async () => {
+    alert("Speech has been clicked. This feature is under development.");
+    // Future implementation for speech input will go here.
+  };
+
   const handleSubmit = async () => {
     if (!explanation.trim()) return;
 
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:8080/api/study/feynman-check", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          concept: topic,
-          explanation,
-          difficulty,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:8080/api/study/feynman-check",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            concept: topic,
+            explanation,
+            difficulty,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to get feedback");
@@ -72,51 +80,62 @@ export default function StudyPage() {
     }
   };
 
-  if (!topic) {
-    return <div>Please select a topic to study.</div>;
-  }
+  // if (!topic) {
+  //   return <div>Please select a topic to study.</div>;
+  // }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="space-y-8">
       <div className="mb-8">
         <button
-          onClick={() => window.location.href = "/dashboard"}
+          onClick={() => (window.location.href = "/dashboard")}
           className="text-[#C4F042] hover:text-[#b3d93c] mb-4"
         >
           ← Back to Dashboard
         </button>
-        <h1 className="text-3xl font-bold mb-2">Study: {topic}</h1>
-        <p className="text-[#8a8a8a]">Difficulty: {difficulty}</p>
       </div>
 
-      <div className="bg-[#0f0f0f] border border-[#2a2a2a] rounded-xl p-8">
-        <h2 className="text-xl font-semibold text-white mb-4">
-          Explain this concept in simple terms
-        </h2>
+      <div className="max-w-4xl mx-auto space-y-8">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">Study: {topic}</h1>
+          <p className="text-[#8a8a8a]">Difficulty: {difficulty}</p>
+        </div>
+        <div className=" bg-[#0f0f0f] border border-[#2a2a2a] rounded-xl p-8">
+          <h2 className="text-xl font-semibold text-white mb-4">
+            Explain this concept in simple terms
+          </h2>
 
-        <textarea
-          value={explanation}
-          onChange={(e) => setExplanation(e.target.value)}
-          placeholder="Write your explanation here..."
-          className="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg px-4 py-3 text-white placeholder-[#5a5a5a] focus:border-[#C4F042] focus:outline-none transition-colors min-h-[200px] resize-none"
-        />
+          <textarea
+            value={explanation}
+            onChange={(e) => setExplanation(e.target.value)}
+            placeholder="Write your explanation here..."
+            className="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg px-4 py-3 text-white placeholder-[#5a5a5a] focus:border-[#C4F042] focus:outline-none transition-colors min-h-[200px] resize-none"
+          />
 
-        <div className="flex gap-4 mt-6">
-          <button
-            onClick={handleSubmit}
-            disabled={isLoading || !explanation.trim()}
-            className="bg-[#C4F042] hover:bg-[#b3d93c] text-black px-6 py-3 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isLoading ? "Analyzing..." : "Submit Explanation"}
-          </button>
+          <div className="flex gap-4 mt-6">
+            <button
+              onClick={handleSpeak}
+              className="bg-[#C4F042] hover:bg-[#b3d93c] text-black px-6 py-3 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? "Speaking..." : "Talk to Feynmind"}
+            </button>
 
-          <button
-            onClick={handleAnalogy}
-            disabled={isLoading}
-            className="bg-[#2196f3] hover:bg-[#1976d2] text-white px-6 py-3 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isLoading ? "Generating..." : "Get Analogy"}
-          </button>
+            <button
+              onClick={handleSubmit}
+              disabled={isLoading || !explanation.trim()}
+              className="bg-[#C4F042] hover:bg-[#b3d93c] text-black px-6 py-3 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? "Analyzing..." : "Submit Explanation"}
+            </button>
+
+            <button
+              onClick={handleAnalogy}
+              disabled={isLoading}
+              className="bg-[#2196f3] hover:bg-[#1976d2] text-white px-6 py-3 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? "Generating..." : "Get Analogy"}
+            </button>
+          </div>
         </div>
       </div>
 
