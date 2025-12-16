@@ -17,9 +17,9 @@ public class StudyMaterial {
 
     private String fileName;
 
-    @Lob 
+    @Lob
     @Column(columnDefinition = "LONGTEXT")
-    private String content; 
+    private String content;
 
     private LocalDateTime uploadedAt;
 

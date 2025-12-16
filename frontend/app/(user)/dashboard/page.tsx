@@ -88,9 +88,14 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Your Study Decks</h1>
-        <p className="text-[#8a8a8a]">Select a deck to start studying</p>
+      <div className="mb-8 flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">Your Study Decks</h1>
+          <p className="text-[#8a8a8a]">Select a deck to start studying</p>
+        </div>
+        <a href="/my-analyses" className="text-[#C4F042] hover:text-[#b3d93c] underline">
+          View All Analyses →
+        </a>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">

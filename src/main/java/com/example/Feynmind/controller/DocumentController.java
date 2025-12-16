@@ -1,7 +1,9 @@
 package com.example.Feynmind.controller;
 
 import com.example.Feynmind.model.StudyMaterial;
+import com.example.Feynmind.model.DocumentAnalysis;
 import com.example.Feynmind.repository.StudyMaterialRepository;
+import com.example.Feynmind.repository.DocumentAnalysisRepository;
 import com.example.Feynmind.service.AiService;
 import com.example.Feynmind.service.PdfService;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +22,13 @@ public class DocumentController {
     private final PdfService pdfService;
     private final AiService aiService;
     private final StudyMaterialRepository repository;
+    private final DocumentAnalysisRepository analysisRepository;
 
-    public DocumentController(PdfService pdfService, AiService aiService, StudyMaterialRepository repository) {
+    public DocumentController(PdfService pdfService, AiService aiService, StudyMaterialRepository repository, DocumentAnalysisRepository analysisRepository) {
         this.pdfService = pdfService;
         this.aiService = aiService;
         this.repository = repository;
+        this.analysisRepository = analysisRepository;
     }
 
     @PostMapping("/upload")
@@ -62,15 +66,39 @@ public class DocumentController {
 
             // 3. ANALYZE
             System.out.println(" Step 3: Sending to AI for analysis...");
-            String summary = aiService.generateStudyTopics(extractedText);
-            System.out.println("✅ AI Response received: " + summary);
+            String analysisResult = aiService.generateStudyTopics(extractedText);
+            System.out.println("✅ AI Response received: " + analysisResult);
 
-            // 4. RESPONSE
+            // Parse the analysis result to separate topics and quality analysis
+            String topics = analysisResult;
+            String qualityAnalysis = "";
+            
+            if (analysisResult.contains("\n\nQuality Analysis:")) {
+                String[] parts = analysisResult.split("\n\nQuality Analysis:", 2);
+                topics = parts[0];
+                qualityAnalysis = parts[1];
+            }
+
+            // 4. SAVE ANALYSIS RESULTS
+            System.out.println(" Step 4: Saving analysis results...");
+            String fileType = determineFileType(file.getOriginalFilename());
+            DocumentAnalysis analysis = new DocumentAnalysis(
+                file.getOriginalFilename(),
+                fileType,
+                extractedText,
+                topics,
+                qualityAnalysis
+            );
+            analysisRepository.save(analysis);
+            System.out.println("✅ Analysis saved to database.");
+
+            // 5. RESPONSE
             Map<String, String> response = new HashMap<>();
             response.put("fileName", file.getOriginalFilename());
-            response.put("topics", summary);
+            response.put("topics", topics);
+            response.put("analysisId", analysis.getId().toString());
             
-            System.out.println(" Step 4: Sending response to frontend.");
+            System.out.println(" Step 5: Sending response to frontend.");
             return ResponseEntity.ok(response);
 
         } catch (Exception e) {
@@ -78,5 +106,39 @@ public class DocumentController {
             e.printStackTrace(); 
             return ResponseEntity.internalServerError().body("Backend Error: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/analyses")
+    public ResponseEntity<?> getAllAnalyses() {
+        try {
+            List<DocumentAnalysis> analyses = analysisRepository.findAllByOrderByProcessedAtDesc();
+            return ResponseEntity.ok(analyses);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error retrieving analyses: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/analyses/{id}")
+    public ResponseEntity<?> getAnalysisById(@PathVariable Long id) {
+        try {
+            DocumentAnalysis analysis = analysisRepository.findById(id).orElse(null);
+            if (analysis == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(analysis);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error retrieving analysis: " + e.getMessage());
+        }
+    }
+
+    private String determineFileType(String fileName) {
+        if (fileName == null) return "unknown";
+        
+        String lowerName = fileName.toLowerCase();
+        if (lowerName.endsWith(".pdf")) return "pdf";
+        if (lowerName.endsWith(".docx")) return "docx";
+        if (lowerName.endsWith(".doc")) return "doc";
+        
+        return "unknown";
     }
 }
