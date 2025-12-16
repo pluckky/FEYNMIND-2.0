@@ -78,64 +78,65 @@ const FAQS = [
 export default function Home() {
   return (
     <div className="overflow-x-hidden flex flex-col w-full relative bg-[#24261B] min-h-screen">
-      
       {/* --- BACKGROUND ASSETS (Moved to TOP + Z-INDEX Fix) --- */}
       {/* This sits at z-0 so it is behind everything else */}
-      <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-        <picture>
+      <div className="absolute top-20  left-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+        <picture className="h-screen w-full block">
           <img
             src="/BG.png"
             alt=""
             className="absolute z-0 w-full h-[3607px] object-cover opacity-60"
           />
-          <img
-            src="/home-tl.svg"
-            alt=""
-            className="absolute z-10 left-0 top-0"
-          />
+          <div className="relative block h-screen w-full">
+            <img
+              src="/home-tl.svg"
+              alt=""
+              className="absolute z-10 left-0 top-0"
+            />
 
-          <div className="absolute z-10 right-0 top-35">
-            <div className="-translate-y-3 translate-x-2 w-fit">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-[#CBF90C]"></div>
-                <p className="text-[#CBF90C]/44 font-monorama">
-                  Real-time Feedback
-                </p>
+            <div className="absolute z-10 right-0 top-16">
+              <div className="-translate-y-3 translate-x-2 w-fit">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-[#CBF90C]"></div>
+                  <p className="text-[#CBF90C]/44 font-monorama">
+                    Real-time Feedback
+                  </p>
+                </div>
+                <p className="ml-4 text-[#B3BBFC]/40">98% satisfaction</p>
               </div>
-              <p className="ml-4 text-[#B3BBFC]/40">98% satisfaction</p>
+              <picture>
+                <img src="/home-tr.svg" alt="" />
+              </picture>
             </div>
-            <picture>
-              <img src="/home-tr.svg" alt="" />
-            </picture>
-          </div>
 
-          <div className="absolute z-10 left-0 bottom-35">
-            <picture>
-              <img src="/home-bl.svg" alt="" />
-            </picture>
-            <div className="translate-y-5 translate-x-20">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-[#CBF90C]" />
-                <p className="text-[#CBF90C]/44 font-monorama">
-                  feynman technique
-                </p>
+            <div className="absolute z-10 left-0 bottom-32">
+              <picture>
+                <img src="/home-bl.svg" alt="" />
+              </picture>
+              <div className="translate-y-5 translate-x-20">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-[#CBF90C]" />
+                  <p className="text-[#CBF90C]/44 font-monorama">
+                    feynman technique
+                  </p>
+                </div>
+                <p className="ml-4 text-[#B3BBFC]/40">Science-backed</p>
               </div>
-              <p className="ml-4 text-[#B3BBFC]/40">Science-backed</p>
             </div>
-          </div>
 
-          <div className="absolute z-10 right-65 -bottom-30">
-            <picture>
-              <img src="/home-br.svg" alt="" />
-            </picture>
-            <div className="-translate-y-60 translate-x-30">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-[#CBF90C]"></div>
-                <p className="text-[#CBF90C]/44 font-monorama">
-                  24/7 available
-                </p>
+            <div className="absolute z-10 right-64 -bottom-16">
+              <picture>
+                <img src="/home-br.svg" alt="" />
+              </picture>
+              <div className="-translate-y-60 translate-x-30">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-[#CBF90C]"></div>
+                  <p className="text-[#CBF90C]/44 font-monorama">
+                    24/7 available
+                  </p>
+                </div>
+                <p className="ml-4 text-[#B3BBFC]/40">Night & Day</p>
               </div>
-              <p className="ml-4 text-[#B3BBFC]/40">Night & Day</p>
             </div>
           </div>
         </picture>
@@ -143,7 +144,6 @@ export default function Home() {
 
       {/* --- MAIN CONTENT (Z-10 to sit ON TOP) --- */}
       <div className="relative w-full h-fit flex flex-col z-10">
-        
         {/* HEADER */}
         <header className="fixed w-full mb-24 h-20 bg-[#24261B]/90 backdrop-blur-md border-b border-white/10 grid grid-cols-3 items-center px-10 *:shrink-0 z-50">
           <picture>
@@ -153,13 +153,22 @@ export default function Home() {
           </picture>
           <nav className="mx-auto font-bold">
             <ul className="flex flex-row gap-20 text-lg *:text-white *:inline-block *:h-6 *:box-border *:cursor-pointer *:decoration-[#CBF90C] *:underline-offset-7 *:px-1 tracking-widest">
-              <li className="hover:border-b hover:text-[#CBF90C] hover:drop-shadow-[0_0_8px_#CBF90C]"><a href="#features">Features</a></li>
-              <li className="hover:border-b hover:text-[#CBF90C] hover:drop-shadow-[0_0_8px_#CBF90C]"><a href="#howitworks">How It Works</a></li>
-              <li className="hover:border-b hover:text-[#CBF90C] hover:drop-shadow-[0_0_8px_#CBF90C]"><a href="#faq">FAQ</a></li>
+              <li className="hover:border-b hover:text-[#CBF90C] hover:drop-shadow-[0_0_8px_#CBF90C]">
+                <a href="#features">Features</a>
+              </li>
+              <li className="hover:border-b hover:text-[#CBF90C] hover:drop-shadow-[0_0_8px_#CBF90C]">
+                <a href="#howitworks">How It Works</a>
+              </li>
+              <li className="hover:border-b hover:text-[#CBF90C] hover:drop-shadow-[0_0_8px_#CBF90C]">
+                <a href="#faq">FAQ</a>
+              </li>
             </ul>
           </nav>
           <div className="flex flex-row gap-3 ml-auto">
-            <Link href="/create-deck" className="border border-[#B3BBFC] rounded-full w-fit bg-[#b3bbfc27] px-3 py-2">
+            <Link
+              href="/create-deck"
+              className="border border-[#B3BBFC] rounded-full w-fit bg-[#b3bbfc27] px-3 py-2"
+            >
               <span className="uppercase font-bold bg-gradient-to-r from-[#CBF90C] to-[#B3BBFC] text-transparent bg-clip-text font-monorama">
                 Get Started
               </span>
@@ -190,13 +199,19 @@ export default function Home() {
           </p>
 
           <div className="flex flex-row gap-3">
-            <Link href="/create-deck" className="rounded-full w-fit bg-[#CBF90C] px-6 py-2 mx-auto hover:scale-105 transition-all flex flex-row gap-2 items-center cursor-pointer">
+            <Link
+              href="/create-deck"
+              className="rounded-full w-fit bg-[#CBF90C] px-6 py-2 mx-auto hover:scale-105 transition-all flex flex-row gap-2 items-center cursor-pointer"
+            >
               <span className="uppercase font-bold text-[#7077B5] font-monorama">
                 start learning
               </span>
             </Link>
 
-            <a href="#howitworks" className="border border-[#B3BBFC] rounded-full w-fit bg-[#b3bbfc27] px-6 py-2 mx-auto hover:scale-105 transition-all flex flex-row gap-2 items-center cursor-pointer">
+            <a
+              href="#howitworks"
+              className="border border-[#B3BBFC] rounded-full w-fit bg-[#b3bbfc27] px-6 py-2 mx-auto hover:scale-105 transition-all flex flex-row gap-2 items-center cursor-pointer"
+            >
               <span className="uppercase font-bold text-[#CBF90C] font-monorama">
                 learn more
               </span>
@@ -205,10 +220,10 @@ export default function Home() {
         </main>
 
         {/* SPACER */}
-        <div className="h-120" />
+        <div className="h-[30rem]" />
 
         {/* FEATURES */}
-        <section id="features" className="scroll-mt-90">
+        <section id="features" className="scroll-mt-80">
           <div className="mx-20 grid grid-cols-3 gap-7">
             {FEATURES.map((feature, index) => (
               <FeaturesCard key={index} data={feature} />
