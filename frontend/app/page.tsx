@@ -61,7 +61,7 @@ const FAQS = [
   {
     question: "What file formats are supported?",
     answer:
-      "Currently, we support PDF files. We're working on adding support for more formats including Word documents, PowerPoint presentations, and plain text files.",
+      "We support PDF files, Microsoft Word documents (.doc and .docx), and we're working on adding support for PowerPoint presentations and plain text files.",
   },
   {
     question: "Is my data secure?",

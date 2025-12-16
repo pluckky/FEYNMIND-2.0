@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/documents")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:3001")
 public class DocumentController {
 
     private final PdfService pdfService;
@@ -34,9 +34,14 @@ public class DocumentController {
 
         try {
             // 1. EXTRACT
-            System.out.println("📄 Step 1: Extracting text from PDF...");
-            String extractedText = pdfService.extractTextFromPdf(file);
+            System.out.println("📄 Step 1: Extracting text from document...");
+            String extractedText = pdfService.extractTextFromDocument(file);
             System.out.println("✅ Text extracted. Length: " + extractedText.length() + " chars");
+
+            // Check if extraction failed
+            if (extractedText.startsWith("Error:")) {
+                return ResponseEntity.badRequest().body(extractedText);
+            }
 
             // 2. CHECK DATABASE (Handle Duplicates Safely)
             System.out.println("💾 Step 2: Checking database for existing file...");

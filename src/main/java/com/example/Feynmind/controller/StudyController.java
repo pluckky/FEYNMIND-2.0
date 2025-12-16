@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/study")
-@CrossOrigin(origins = "http://localhost:5173") // Ensure this matches your frontend port
+@CrossOrigin(origins = "http://localhost:3001") // Ensure this matches your frontend port
 public class StudyController {
 
     private final AiService aiService;
